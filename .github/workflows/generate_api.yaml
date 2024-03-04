@@ -11,6 +11,6 @@ jobs:
       uses: JR-1991/generate-sdrdm-api@v3
       with:
         library_name: "FAIRDaRUS"
-        schema_path: "./specifications/datamodel_defition.md"
+        schema_path: "./specifications/datamodel_definition.md"
         schema: "true"
         branch: "main"
