@@ -10,7 +10,7 @@ jobs:
     - name: Generate sdRDM library
       uses: JR-1991/generate-sdrdm-api@v3
       with:
-        library_name: "FAIRFlowChemistry"
-        schema_path: "./specifications/datamodel_b07_tc.md"
+        library_name: "FAIRDaRUS"
+        schema_path: "./specifications/datamodel_defition.md"
         schema: "true"
         branch: "main"
