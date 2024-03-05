@@ -1,21 +1,23 @@
 import sdRDM
 
 from typing import List, Optional
+from pydantic import PrivateAttr
 from uuid import uuid4
 from pydantic_xml import attr, element, wrapped
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
-
-
-from .topicclassification import TopicClassification
-from .author import Author
-from .keyword import Keyword
 from .relatedpublication import RelatedPublication
+from .keyword import Keyword
+from .author import Author
+from .topicclassification import TopicClassification
 
 
 @forge_signature
 class Contact(
     sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#Contact"
+    },
 ):
     """Small type for attribute 'contact'"""
 
@@ -25,29 +27,25 @@ class Contact(
         default_factory=lambda: str(uuid4()),
         xml="@id",
     )
-
-    name: Optional[str] = element(
-        default=None,
-        tag="name",
-        json_schema_extra=dict(),
-    )
-
+    name: Optional[str] = element(default=None, tag="name", json_schema_extra=dict())
     affiliation: Optional[str] = element(
-        default=None,
-        tag="affiliation",
-        json_schema_extra=dict(),
+        default=None, tag="affiliation", json_schema_extra=dict()
     )
-
-    email: Optional[str] = element(
-        default=None,
-        tag="email",
-        json_schema_extra=dict(),
+    email: Optional[str] = element(default=None, tag="email", json_schema_extra=dict())
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/FAIRChemistry/FAIRDaRUS"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
     )
 
 
 @forge_signature
 class Citation(
     sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#Citation"
+    },
 ):
     """"""
 
@@ -85,9 +83,7 @@ class Citation(
             description="authors of this dataset.",
             default_factory=ListPlus,
             tag="Author",
-            json_schema_extra=dict(
-                multiple=True,
-            ),
+            json_schema_extra=dict(multiple=True),
         ),
     )
 
@@ -107,9 +103,7 @@ class Citation(
             ),
             default_factory=ListPlus,
             tag="string",
-            json_schema_extra=dict(
-                multiple=True,
-            ),
+            json_schema_extra=dict(multiple=True),
         ),
     )
 
@@ -126,9 +120,7 @@ class Citation(
             description="keywords and url related to the project.",
             default_factory=ListPlus,
             tag="Keyword",
-            json_schema_extra=dict(
-                multiple=True,
-            ),
+            json_schema_extra=dict(multiple=True),
         ),
     )
 
@@ -138,10 +130,14 @@ class Citation(
             description="topic classification.",
             default_factory=ListPlus,
             tag="TopicClassification",
-            json_schema_extra=dict(
-                multiple=True,
-            ),
+            json_schema_extra=dict(multiple=True),
         ),
+    )
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/FAIRChemistry/FAIRDaRUS"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
     )
 
     def add_to_authors(
@@ -162,19 +158,15 @@ class Citation(
             identifier_scheme (): Name of the identifier scheme (ORCID, ISNI).. Defaults to None
             identifier (): Uniquely identifies an individual author or organization, according to various schemes.. Defaults to None
         """
-
         params = {
             "name": name,
             "affiliation": affiliation,
             "identifier_scheme": identifier_scheme,
             "identifier": identifier,
         }
-
         if id is not None:
             params["id"] = id
-
         self.authors.append(Author(**params))
-
         return self.authors[-1]
 
     def add_to_keywords(
@@ -193,18 +185,14 @@ class Citation(
             vocabulary (): for the specification of the keyword controlled vocabulary in use, such as LCSH, MeSH, or others.. Defaults to None
             vocabulary_uri (): keyword vocabulary URI points to the web presence that describes the keyword vocabulary, if appropriate.. Defaults to None
         """
-
         params = {
             "value": value,
             "vocabulary": vocabulary,
             "vocabulary_uri": vocabulary_uri,
         }
-
         if id is not None:
             params["id"] = id
-
         self.keywords.append(Keyword(**params))
-
         return self.keywords[-1]
 
     def add_to_topic_classification(
@@ -223,16 +211,8 @@ class Citation(
             vocab (): provided for specification of the controlled vocabulary in use, e.g., LCSH, MeSH, etc.. Defaults to None
             vocab_uri (): specifies the URI location for the full controlled vocabulary.. Defaults to None
         """
-
-        params = {
-            "value": value,
-            "vocab": vocab,
-            "vocab_uri": vocab_uri,
-        }
-
+        params = {"value": value, "vocab": vocab, "vocab_uri": vocab_uri}
         if id is not None:
             params["id"] = id
-
         self.topic_classification.append(TopicClassification(**params))
-
         return self.topic_classification[-1]
