@@ -2,6 +2,8 @@
 
 This datamodel covers the citation metadata needed to upload to DaRUS
 
+## Objects
+
 ### Citation
 
 - title
@@ -32,7 +34,21 @@ This datamodel covers the citation metadata needed to upload to DaRUS
   - Type: TopicClassification[]
   - Description: topic classification.
 
+### Author
 
+- name
+  - Type: string
+  - Description: full name including given and family name.
+- affiliation
+  - Type: string
+  - Description: organization the author is affiliated to.
+- identifier_scheme
+  - Type: string
+  - Description: Name of the identifier scheme (ORCID, ISNI).
+- identifier
+  - Type: string
+  - Description: Uniquely identifies an individual author or organization, according to various schemes.
+  
 ### RelatedPublication
 
 - citation

@@ -1,0 +1,57 @@
+{
+  "properties": {
+    "id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Unique identifier of the given object.",
+      "title": "Id"
+    },
+    "value": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "key terms describing important aspects of the dataset.",
+      "title": "Value"
+    },
+    "vocabulary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "for the specification of the keyword controlled vocabulary in use, such as LCSH, MeSH, or others.",
+      "title": "Vocabulary"
+    },
+    "vocabulary_uri": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "keyword vocabulary URI points to the web presence that describes the keyword vocabulary, if appropriate.",
+      "title": "Vocabulary Uri"
+    }
+  },
+  "title": "Keyword",
+  "type": "object"
+}

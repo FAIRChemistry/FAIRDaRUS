@@ -8,9 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Generate sdRDM library
-      uses: JR-1991/generate-sdrdm-api@v3
+      uses: JR-1991/generate-sdrdm-api@v3.1
       with:
         library_name: "FAIRDaRUS"
-        schema_path: "./specifications/datamodel_definition.md"
-        schema: "true"
-        branch: "main"
+        schema_path: "./specifications/datamodel.md"
