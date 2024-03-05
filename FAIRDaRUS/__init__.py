@@ -1,3 +1,3 @@
 
 __URL__ = "https://github.com/FAIRChemistry/FAIRDaRUS"
-__COMMIT__ = "491ead8bf2bac82071f405beeb1b06beb2cc9c96"
+__COMMIT__ = "16c150ad95429dc0f2c42af27600c6c5553ab3a6"

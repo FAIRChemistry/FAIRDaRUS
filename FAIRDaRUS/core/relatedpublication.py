@@ -11,7 +11,7 @@ from sdRDM.base.utils import forge_signature
 class RelatedPublication(
     sdRDM.DataModel,
     nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#RelatedPublication"
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@16c150ad95429dc0f2c42af27600c6c5553ab3a6#RelatedPublication"
     },
 ):
     """"""
@@ -60,5 +60,5 @@ class RelatedPublication(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
+        default="16c150ad95429dc0f2c42af27600c6c5553ab3a6"
     )

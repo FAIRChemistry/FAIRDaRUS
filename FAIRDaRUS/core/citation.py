@@ -6,17 +6,17 @@ from uuid import uuid4
 from pydantic_xml import attr, element, wrapped
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
-from .relatedpublication import RelatedPublication
-from .keyword import Keyword
 from .author import Author
+from .relatedpublication import RelatedPublication
 from .topicclassification import TopicClassification
+from .keyword import Keyword
 
 
 @forge_signature
 class Contact(
     sdRDM.DataModel,
     nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#Contact"
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@16c150ad95429dc0f2c42af27600c6c5553ab3a6#Contact"
     },
 ):
     """Small type for attribute 'contact'"""
@@ -36,7 +36,7 @@ class Contact(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
+        default="16c150ad95429dc0f2c42af27600c6c5553ab3a6"
     )
 
 
@@ -44,7 +44,7 @@ class Contact(
 class Citation(
     sdRDM.DataModel,
     nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#Citation"
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@16c150ad95429dc0f2c42af27600c6c5553ab3a6#Citation"
     },
 ):
     """"""
@@ -137,7 +137,7 @@ class Citation(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
+        default="16c150ad95429dc0f2c42af27600c6c5553ab3a6"
     )
 
     def add_to_authors(
