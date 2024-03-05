@@ -1,6 +1,7 @@
 import sdRDM
 
 from typing import Optional
+from pydantic import PrivateAttr
 from uuid import uuid4
 from pydantic_xml import attr, element
 from sdRDM.base.utils import forge_signature
@@ -9,6 +10,9 @@ from sdRDM.base.utils import forge_signature
 @forge_signature
 class RelatedPublication(
     sdRDM.DataModel,
+    nsmap={
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@491ead8bf2bac82071f405beeb1b06beb2cc9c96#RelatedPublication"
+    },
 ):
     """"""
 
@@ -51,4 +55,10 @@ class RelatedPublication(
         default=None,
         tag="url",
         json_schema_extra=dict(),
+    )
+    _repo: Optional[str] = PrivateAttr(
+        default="https://github.com/FAIRChemistry/FAIRDaRUS"
+    )
+    _commit: Optional[str] = PrivateAttr(
+        default="491ead8bf2bac82071f405beeb1b06beb2cc9c96"
     )
