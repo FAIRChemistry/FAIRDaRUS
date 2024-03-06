@@ -1,4 +1,3 @@
-from .tools.darus_upload import DaRUS_upload
 
 __URL__ = "https://github.com/FAIRChemistry/FAIRDaRUS"
-__COMMIT__ = "e1a9204c8b78f122dc20b27eb93861caec68a324"
+__COMMIT__ = "1be591e1a58dc9e5896ef1736a250ce7f77923ef"

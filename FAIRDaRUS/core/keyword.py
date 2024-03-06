@@ -11,7 +11,7 @@ from sdRDM.base.utils import forge_signature
 class Keyword(
     sdRDM.DataModel,
     nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@e1a9204c8b78f122dc20b27eb93861caec68a324#Keyword"
+        "": "https://github.com/FAIRChemistry/FAIRDaRUS@1be591e1a58dc9e5896ef1736a250ce7f77923ef#Keyword"
     },
 ):
     """"""
@@ -53,5 +53,5 @@ class Keyword(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="e1a9204c8b78f122dc20b27eb93861caec68a324"
+        default="1be591e1a58dc9e5896ef1736a250ce7f77923ef"
     )
