@@ -17,6 +17,26 @@ warnings.filterwarnings("ignore", category=UserWarning, module="gevent.hub")
 
 class DaRUS_upload:
 
+    def action_handler(self,_):
+        with self.action_output:
+            clear_output(wait=True)
+
+            if len(self.api_token_text.value.split("-") )== 5:
+                self.dataverse = Dataverse( server_url = 'https://darus.uni-stuttgart.de',
+                                            api_token  = self.api_token_text.value )
+            else:
+                raise KeyError("Invalid API token presented\n")
+            
+            if self.action_dropdown.value == "Create new one":
+                self.create_new()
+
+            elif self.action_dropdown.value == "Edit existing one":
+                self.edit_existing()
+                
+            else:
+                # Print empty space to overwrite existing widget output
+                print("")
+                
     def add_file_dir(self,_):
         # Clear previous output and print the new message in the button's output area
         flag = False
@@ -51,26 +71,6 @@ class DaRUS_upload:
             del self.DaRUS_data.files[idx]
         
         self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
-        
-    def action_handler(self,_):
-        with self.action_output:
-            clear_output(wait=True)
-
-            if len(self.api_token_text.value.split("-") )== 5:
-                self.dataverse = Dataverse( server_url = 'https://darus.uni-stuttgart.de',
-                                            api_token  = self.api_token_text.value )
-            else:
-                raise KeyError("Invalid API token presented\n")
-            
-            if self.action_dropdown.value == "Create new one":
-                self.create_new()
-
-            elif self.action_dropdown.value == "Edit existing one":
-                self.edit_existing()
-                
-            else:
-                # Print empty space to overwrite existing widget output
-                print("")
 
     def create_new(self):
     
@@ -130,10 +130,10 @@ class DaRUS_upload:
     def download_from_DaRUS(self,_):
         
         # Create folder where DaRUS data is saved
-        os.makedirs( os.path.dirname( os.getcwd() + self.file_directoy_text.value), exist_ok=True )
+        os.makedirs( os.path.dirname( os.getcwd() + "/" + self.file_directoy_text.value), exist_ok=True )
 
         # Load existing DaRUS dataset
-        self.DaRUS_data = self.dataverse.load_dataset( self.doi_text.value )
+        self.DaRUS_data = self.dataverse.load_dataset( self.doi_text.value, filedir = self.file_directoy_text.value )
         
         # Initialize 
         self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
