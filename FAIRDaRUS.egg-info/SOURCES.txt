@@ -1,0 +1,16 @@
+setup.py
+FAIRDaRUS/__init__.py
+FAIRDaRUS.egg-info/PKG-INFO
+FAIRDaRUS.egg-info/SOURCES.txt
+FAIRDaRUS.egg-info/dependency_links.txt
+FAIRDaRUS.egg-info/requires.txt
+FAIRDaRUS.egg-info/top_level.txt
+FAIRDaRUS/core/__init__.py
+FAIRDaRUS/core/author.py
+FAIRDaRUS/core/citation.py
+FAIRDaRUS/core/keyword.py
+FAIRDaRUS/core/relatedpublication.py
+FAIRDaRUS/core/topicclassification.py
+FAIRDaRUS/tools/__init__.py
+FAIRDaRUS/tools/darus_upload.py
+FAIRDaRUS/tools/utils.py
