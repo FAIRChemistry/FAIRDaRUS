@@ -19,14 +19,39 @@ class DaRUS_upload:
 
     def add_file_dir(self,_):
         # Clear previous output and print the new message in the button's output area
+        flag = False
         with self.button_output:
             clear_output(wait=True)
             if os.path.isfile(self.file_directoy_input.value) or os.path.isdir(self.file_directoy_input.value):
-                self.file_directoy.value = self.file_directoy.value + [ self.file_directoy_input.value ]
+                if os.path.isdir(self.file_directoy_input.value):
+                    flag = True
+                    self.DaRUS_data.add_directory( dirpath = self.file_directoy_input.value )
+                elif os.path.isfile(self.file_directoy_input.value):
+                    self.DaRUS_data.add_file( local_path = self.file_directoy_input.value, description = self.file_description_input.value )
+
                 print(f"Added file / directory: {self.file_directoy_input.value }")
             else:
                 print(f"The specified entry is neither a file nor a directory:\n {self.file_directoy_input.value}")
-                
+        
+        # If directory is added, add description to every file manually
+        if flag:
+            for file in self.DaRUS_data.files:
+                if self.file_directoy_input.value in file.filepath:
+                    file.description = self.file_description_input.value
+
+        # Update file / dir widget
+        self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
+
+    def files_dir_handler(self,_):
+        # Delete files / directories that are not in the files / directories widget anymore
+        del_idx = [ i for i,file in enumerate(self.DaRUS_data.files) if not file.filepath in self.file_directoy.value ]
+        del_idx.sort( reverse = True)
+
+        for idx in del_idx:
+            del self.DaRUS_data.files[idx]
+        
+        self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
+        
     def action_handler(self,_):
         with self.action_output:
             clear_output(wait=True)
@@ -47,16 +72,6 @@ class DaRUS_upload:
                 # Print empty space to overwrite existing widget output
                 print("")
 
-    def add_files_dir_to_dataset(self):
-        # Add files and directories to DaRUS dataset
-        for entry in self.file_directoy.value:
-            if os.path.isfile(entry):
-                self.DaRUS_data.add_file( dv_dir = entry, local_path = entry )
-            elif os.path.isdir(entry):
-               self.DaRUS_data.add_directory( dirpath = entry )
-            else:
-                print(f"The specified entry is neither a file nor a directory:\n {entry}")
-
     def create_new(self):
     
         self.dataverse_dropdown = widgets.Dropdown( options= self.dataverse_list,
@@ -72,7 +87,7 @@ class DaRUS_upload:
 
         widgets0  = widgets.VBox([v_space, self.citation.full_layout, v_space])
         widgets1  = widgets.VBox([self.dataverse_dropdown, v_space])
-        widgets2  = self.file_directoy_input
+        widgets2  = widgets.VBox([self.file_directoy_input, self.file_description_input])
         widgets3  = widgets.VBox([self.button_add_file_dir, self.button_output], layout=widgets.Layout(align_items = 'center'))
         widgets4  = widgets.VBox([v_space,widgets.Label(value='Files / directories in DaRUS dataset:'), self.file_directoy])
         widgets5  = widgets.VBox([self.button_upload],layout=widgets.Layout(align_items = 'center'))
@@ -120,9 +135,8 @@ class DaRUS_upload:
         # Load existing DaRUS dataset
         self.DaRUS_data = self.dataverse.load_dataset( self.doi_text.value )
         
-        # Initialize (remove all files from current dataset and reupload them if wanted)
-        self.file_directoy.value = [ f.local_path for f in self.DaRUS_data.files ]
-        self.DaRUS_data.files    = []
+        # Initialize 
+        self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
 
         # Fill out citation widget with preexisting data
         self.citation.prefill( dataset = self.DaRUS_data )
@@ -135,7 +149,7 @@ class DaRUS_upload:
             v_space   = widgets.VBox([widgets.Label(value='')], layout=widgets.Layout(height='30px'))
             
             widgets0  = widgets.VBox([v_space, self.citation.full_layout, v_space])
-            widgets1  = self.file_directoy_input
+            widgets1  = widgets.VBox([self.file_directoy_input, self.file_description_input])
             widgets2  = widgets.VBox([self.button_add_file_dir, self.button_output], layout=widgets.Layout(align_items = 'center'))
             widgets3  = widgets.VBox([v_space,widgets.Label(value='Files / directories in DaRUS dataset:'), self.file_directoy])
             widgets4  = widgets.VBox([self.button_upload],layout=widgets.Layout(align_items = 'center'))
@@ -149,10 +163,7 @@ class DaRUS_upload:
     def update_to_DaRUS(self,_):
 
         # Update citation metadata from widget
-        self.citation.save_input( dataset = self.DaRUS_data )
-
-        # Add files and directories
-        self.add_files_dir_to_dataset()
+        self.citation.save_input( dataset = self.DaRUS_data, depositor = self.depositor_text.value  )
         
         # Update dataset
         self.DaRUS_data.update( )
@@ -165,11 +176,11 @@ class DaRUS_upload:
         # Create new DaRUS dataset
         self.DaRUS_data = self.dataverse.create_dataset()
 
-        # Fill in citation metadata from widget
-        self.citation.save_input( dataset = self.DaRUS_data  )
+        # Initialize 
+        self.file_directoy.value = [ ]
 
-        # Add files and directories
-        self.add_files_dir_to_dataset()
+        # Fill in citation metadata from widget
+        self.citation.save_input( dataset = self.DaRUS_data, depositor = self.depositor_text.value )
 
         # Upload dataset
         self.DaRUS_data.upload( dataverse_name = self.dataverse_dropdown.value )
@@ -186,8 +197,14 @@ class DaRUS_upload:
                                                     layout=widgets.Layout(width='auto'),
                                                     style={'description_width': 'auto'})
         
+        self.file_description_input = widgets.Text (description="Description of the file / directory:",
+                                                    placeholder="Addiotional description of the file / directory.",
+                                                    layout=widgets.Layout(width='auto'),
+                                                    style={'description_width': 'auto'})
+        
         self.file_directoy          = widgets.TagsInput(allow_duplicates=False)
         
+
         self.button_add_file_dir    = widgets.Button(description='Add file / directory to DaRUS dataset',
                                                      layout=widgets.Layout(width="20%"))
         
@@ -223,6 +240,7 @@ class DaRUS_upload:
         
         # Handle effects
         self.action_dropdown.observe(self.action_handler)
+        self.file_directoy.observe(self.files_dir_handler)
 
         # Citation widget
         self.citation = citation_widget()

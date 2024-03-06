@@ -97,7 +97,7 @@ class citation_widget:
 
         self.title.value = dataset.citation.title
         self.description.value = dataset.citation.ds_description[0].value if dataset.citation.ds_description else ""
-        self.project.value = dataset.citation.project[0] if dataset.citation.project else ""
+        self.project.value = dataset.citation.project[0].name if dataset.citation.project else ""
 
         for author in dataset.citation.author:
             self.authors.value = f"{self.authors.value}, {author.name}" if self.authors.value else author.name
@@ -110,7 +110,7 @@ class citation_widget:
         self.subject_selection.value = dataset.citation.subject
 
         for keyword in dataset.citation.keyword:
-            self.keyword.value = ( f"{self.keyword.value}, {keyword.value}, {keyword.vocabulary_uri}" if self.keyword.value else 
+            self.keywords.value = ( f"{self.keywords.value}, {keyword.value}, {keyword.vocabulary_uri}" if self.keywords.value else 
                                    f"{keyword.value}, {keyword.vocabulary_uri}")
 
         for topic in dataset.citation.topic_classification:
@@ -119,7 +119,7 @@ class citation_widget:
 
         self.related_publication.value = f"{dataset.citation.publication[0].citation}, {dataset.citation.publication[0].url}" if dataset.citation.publication else ""
 
-    def save_input(self, dataset: Dataset):
+    def save_input(self, dataset: Dataset, depositor: str):
 
         # Add project group
         dataset.citation.project = []
@@ -149,7 +149,7 @@ class citation_widget:
         dataset.citation.subject      = self.subject_selection.value
 
         # Add depositor
-        dataset.citation.depositor       = self.depositor_text.value.strip()
+        dataset.citation.depositor       = depositor
         dataset.citation.date_of_deposit = datetime.now().date().strftime("%Y-%m-%d")
         
         # Add generall SFB information
@@ -175,5 +175,5 @@ class citation_widget:
         dataset.citation.keyword = []
         if self.keywords.value:
             for i in range(0, len(self.keywords.value.split(",")), 2):
-                dataset.citation.add_to_keywords( value          = self.keywords.value.split(",")[i].strip() , 
-                                                  vocabulary_uri = self.keywords.value.split(",")[i + 1].strip() )
+                dataset.citation.add_keyword( value          = self.keywords.value.split(",")[i].strip() , 
+                                              vocabulary_uri = self.keywords.value.split(",")[i + 1].strip() )
