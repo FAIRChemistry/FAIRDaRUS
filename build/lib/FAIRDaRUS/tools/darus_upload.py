@@ -62,6 +62,10 @@ class DaRUS_upload:
         # Update file / dir widget
         self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
 
+        # Reset file and description
+        self.file_directoy_input.value    = ""
+        self.file_description_input.value = ""
+
     def files_dir_handler(self,_):
         # Delete files / directories that are not in the files / directories widget anymore
         del_idx = [ i for i,file in enumerate(self.DaRUS_data.files) if not file.filepath in self.file_directoy.value ]
@@ -206,7 +210,7 @@ class DaRUS_upload:
         
 
         self.button_add_file_dir    = widgets.Button(description='Add file / directory to DaRUS dataset',
-                                                     layout=widgets.Layout(width="20%"))
+                                                     layout=widgets.Layout(width="30%"))
         
         self.button_upload          = widgets.Button(description='Upload dataset to DaRUS',
                                                      layout=widgets.Layout(width="30%"),
