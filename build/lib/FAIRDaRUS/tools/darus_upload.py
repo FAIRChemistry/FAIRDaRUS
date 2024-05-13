@@ -69,7 +69,7 @@ class DaRUS_upload:
     def files_dir_handler(self,_):
         # Delete files / directories that are not in the files / directories widget anymore
         del_idx = [ i for i,file in enumerate(self.DaRUS_data.files) if not file.filepath in self.file_directoy.value ]
-        del_idx.sort( reverse = True)
+        del_idx.sort( reverse = True )
 
         for idx in del_idx:
             del self.DaRUS_data.files[idx]
@@ -77,7 +77,10 @@ class DaRUS_upload:
         self.file_directoy.value = [ file.filepath for file in self.DaRUS_data.files]
 
     def create_new(self):
-    
+        
+        # Create new DaRUS dataset
+        self.DaRUS_data = self.dataverse.create_dataset()
+        
         self.dataverse_dropdown = widgets.Dropdown( options= self.dataverse_list,
                                                     description="Choose dataverse:",
                                                     layout=widgets.Layout(width='auto'),
@@ -176,9 +179,6 @@ class DaRUS_upload:
         """
         Function that uses the provided sdRDM dataset to extract all necessary information to upload a dataset to DaRUS.
         """
-        
-        # Create new DaRUS dataset
-        self.DaRUS_data = self.dataverse.create_dataset()
 
         # Initialize 
         self.file_directoy.value = [ ]
