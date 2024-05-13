@@ -10,8 +10,8 @@ from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
 from .topicclassification import TopicClassification
 from .author import Author
-from .relatedpublication import RelatedPublication
 from .keyword import Keyword
+from .relatedpublication import RelatedPublication
 
 
 @forge_signature
@@ -33,7 +33,7 @@ class Contact(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="b4e182c6ea23841a0256d49c102fb1f1ff0530d9"
+        default="e032b69148d5f93e6cfb1f7bfc148bfdd56aa2e9"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -129,7 +129,7 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="b4e182c6ea23841a0256d49c102fb1f1ff0530d9"
+        default="e032b69148d5f93e6cfb1f7bfc148bfdd56aa2e9"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
