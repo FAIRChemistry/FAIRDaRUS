@@ -1,8 +1,7 @@
-
 from setuptools import setup, find_packages
 
-VERSION = '0.0.1'
-DESCRIPTION = 'This module enables users to upload data to DaRUS the dataverse of the university of Stuttgart'
+VERSION = "0.0.1"
+DESCRIPTION = "This module enables users to upload data to DaRUS the dataverse of the university of Stuttgart"
 
 # Setting up
 setup(
@@ -12,13 +11,9 @@ setup(
     url="https://github.com/FAIRChemistry/FAIRDaRUS.git",
     author="Samir Darouich",
     author_email="samir.darouich@itt.uni-stuttgart.de",
-    license_files = ('LICENSE'),
+    license_files=("LICENSE"),
     packages=find_packages(),
-    install_requires=['sdrdm',
-                      'easyDataverse',
-                      'ipywidgets'
-                      ],
-
+    install_requires=["sdrdm", "easyDataverse", "ipywidgets"],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Users",
@@ -26,5 +21,5 @@ setup(
         "Operating System :: Unix",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows",
-    ]
+    ],
 )
