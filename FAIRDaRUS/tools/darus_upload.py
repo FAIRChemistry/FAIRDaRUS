@@ -175,19 +175,22 @@ class DaRUS_upload:
         # Update dataset
         self.DaRUS_data.update( )
 
+        # Initialize 
+        self.file_directoy.value = [ ]
+
     def upload_to_DaRUS(self,_):
         """
         Function that uses the provided sdRDM dataset to extract all necessary information to upload a dataset to DaRUS.
         """
-
-        # Initialize 
-        self.file_directoy.value = [ ]
 
         # Fill in citation metadata from widget
         self.citation.save_input( dataset = self.DaRUS_data, depositor = self.depositor_text.value )
 
         # Upload dataset
         self.DaRUS_data.upload( dataverse_name = self.dataverse_dropdown.value )
+
+        # Initialize 
+        self.file_directoy.value = [ ]
 
 
     def DaRUS(self, dataverse_list: List):

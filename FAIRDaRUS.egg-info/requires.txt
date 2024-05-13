@@ -1,1 +1,3 @@
+sdrdm
+easyDataverse
 ipywidgets

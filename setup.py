@@ -14,8 +14,8 @@ setup(
     author_email="samir.darouich@itt.uni-stuttgart.de",
     license_files = ('LICENSE'),
     packages=find_packages(),
-    install_requires=[#'sdrdm',
-                      #'easyDataverse',
+    install_requires=['sdrdm',
+                      'easyDataverse',
                       'ipywidgets'
                       ],
 
