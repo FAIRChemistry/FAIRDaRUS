@@ -1,24 +1,21 @@
 import sdRDM
 
-from typing import List, Optional
-from pydantic import PrivateAttr
+from typing import Dict, List, Optional
+from pydantic import PrivateAttr, model_validator
 from uuid import uuid4
-from pydantic_xml import attr, element, wrapped
+from pydantic_xml import attr, element
+from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
+from sdRDM.tools.utils import elem2dict
+from .topicclassification import TopicClassification
+from .author import Author
 from .relatedpublication import RelatedPublication
 from .keyword import Keyword
-from .author import Author
-from .topicclassification import TopicClassification
 
 
 @forge_signature
-class Contact(
-    sdRDM.DataModel,
-    nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@65a354f35f9dd007471dce7138d159343f49cad5#Contact"
-    },
-):
+class Contact(sdRDM.DataModel, search_mode="unordered"):
     """Small type for attribute 'contact'"""
 
     id: Optional[str] = attr(
@@ -36,17 +33,24 @@ class Contact(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="65a354f35f9dd007471dce7138d159343f49cad5"
+        default="b4e182c6ea23841a0256d49c102fb1f1ff0530d9"
     )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self
 
 
 @forge_signature
-class Citation(
-    sdRDM.DataModel,
-    nsmap={
-        "": "https://github.com/FAIRChemistry/FAIRDaRUS@65a354f35f9dd007471dce7138d159343f49cad5#Citation"
-    },
-):
+class Citation(sdRDM.DataModel, search_mode="unordered"):
     """"""
 
     id: Optional[str] = attr(
@@ -77,14 +81,11 @@ class Citation(
         json_schema_extra=dict(),
     )
 
-    authors: List[Author] = wrapped(
-        "authors",
-        element(
-            description="authors of this dataset.",
-            default_factory=ListPlus,
-            tag="Author",
-            json_schema_extra=dict(multiple=True),
-        ),
+    authors: List[Author] = element(
+        description="authors of this dataset.",
+        default_factory=ListPlus,
+        tag="authors",
+        json_schema_extra=dict(multiple=True),
     )
 
     contact: Optional[Contact] = element(
@@ -94,17 +95,14 @@ class Citation(
         json_schema_extra=dict(),
     )
 
-    subject: List[str] = wrapped(
-        "subject",
-        element(
-            description=(
-                "domain specific subject categories that are topically relevant to the"
-                " dataset."
-            ),
-            default_factory=ListPlus,
-            tag="string",
-            json_schema_extra=dict(multiple=True),
+    subject: List[str] = element(
+        description=(
+            "domain specific subject categories that are topically relevant to the"
+            " dataset."
         ),
+        default_factory=ListPlus,
+        tag="subject",
+        json_schema_extra=dict(multiple=True),
     )
 
     related_publication: Optional[RelatedPublication] = element(
@@ -114,31 +112,37 @@ class Citation(
         json_schema_extra=dict(),
     )
 
-    keywords: List[Keyword] = wrapped(
-        "keywords",
-        element(
-            description="keywords and url related to the project.",
-            default_factory=ListPlus,
-            tag="Keyword",
-            json_schema_extra=dict(multiple=True),
-        ),
+    keywords: List[Keyword] = element(
+        description="keywords and url related to the project.",
+        default_factory=ListPlus,
+        tag="keywords",
+        json_schema_extra=dict(multiple=True),
     )
 
-    topic_classification: List[TopicClassification] = wrapped(
-        "topic_classification",
-        element(
-            description="topic classification.",
-            default_factory=ListPlus,
-            tag="TopicClassification",
-            json_schema_extra=dict(multiple=True),
-        ),
+    topic_classification: List[TopicClassification] = element(
+        description="topic classification.",
+        default_factory=ListPlus,
+        tag="topic_classification",
+        json_schema_extra=dict(multiple=True),
     )
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="65a354f35f9dd007471dce7138d159343f49cad5"
+        default="b4e182c6ea23841a0256d49c102fb1f1ff0530d9"
     )
+    _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _parse_raw_xml_data(self):
+        for attr, value in self:
+            if isinstance(value, (ListPlus, list)) and all(
+                (isinstance(i, _Element) for i in value)
+            ):
+                self._raw_xml_data[attr] = [elem2dict(i) for i in value]
+            elif isinstance(value, _Element):
+                self._raw_xml_data[attr] = elem2dict(value)
+        return self
 
     def add_to_authors(
         self,
@@ -147,6 +151,7 @@ class Citation(
         identifier_scheme: Optional[str] = None,
         identifier: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Author:
         """
         This method adds an object of type 'Author' to attribute authors
@@ -175,6 +180,7 @@ class Citation(
         vocabulary: Optional[str] = None,
         vocabulary_uri: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> Keyword:
         """
         This method adds an object of type 'Keyword' to attribute keywords
@@ -201,6 +207,7 @@ class Citation(
         vocab: Optional[str] = None,
         vocab_uri: Optional[str] = None,
         id: Optional[str] = None,
+        **kwargs
     ) -> TopicClassification:
         """
         This method adds an object of type 'TopicClassification' to attribute topic_classification
