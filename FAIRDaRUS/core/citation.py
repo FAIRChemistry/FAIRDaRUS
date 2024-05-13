@@ -30,7 +30,7 @@ class Contact(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="bba16c795f2ad4015a9bca1dba9607ac77770cb7"
+        default="abe5d76e8a1659eda84bba300b326bb38dfc818b"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -105,7 +105,7 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="bba16c795f2ad4015a9bca1dba9607ac77770cb7"
+        default="abe5d76e8a1659eda84bba300b326bb38dfc818b"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
