@@ -8,9 +8,6 @@ from lxml.etree import _Element
 from sdRDM.base.listplus import ListPlus
 from sdRDM.base.utils import forge_signature
 from sdRDM.tools.utils import elem2dict
-from .topicclassification import TopicClassification
-from .keyword import Keyword
-from .relatedpublication import RelatedPublication
 from .author import Author
 
 
@@ -33,7 +30,7 @@ class Contact(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="403aba2b92e1be808003052d7f2afe68d39e76c8"
+        default="bba16c795f2ad4015a9bca1dba9607ac77770cb7"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -104,32 +101,11 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
         tag="subject",
         json_schema_extra=dict(multiple=True),
     )
-
-    related_publication: Optional[RelatedPublication] = element(
-        description="publication related to the dataset.",
-        default_factory=RelatedPublication,
-        tag="related_publication",
-        json_schema_extra=dict(),
-    )
-
-    keywords: List[Keyword] = element(
-        description="keywords and url related to the project.",
-        default_factory=ListPlus,
-        tag="keywords",
-        json_schema_extra=dict(multiple=True),
-    )
-
-    topic_classification: List[TopicClassification] = element(
-        description="topic classification.",
-        default_factory=ListPlus,
-        tag="topic_classification",
-        json_schema_extra=dict(multiple=True),
-    )
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="403aba2b92e1be808003052d7f2afe68d39e76c8"
+        default="bba16c795f2ad4015a9bca1dba9607ac77770cb7"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
@@ -148,8 +124,6 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
         self,
         name: Optional[str] = None,
         affiliation: Optional[str] = None,
-        identifier_scheme: Optional[str] = None,
-        identifier: Optional[str] = None,
         id: Optional[str] = None,
         **kwargs
     ) -> Author:
@@ -160,66 +134,9 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
             id (str): Unique identifier of the 'Author' object. Defaults to 'None'.
             name (): full name including given and family name.. Defaults to None
             affiliation (): organization the author is affiliated to.. Defaults to None
-            identifier_scheme (): Name of the identifier scheme (ORCID, ISNI).. Defaults to None
-            identifier (): Uniquely identifies an individual author or organization, according to various schemes.. Defaults to None
         """
-        params = {
-            "name": name,
-            "affiliation": affiliation,
-            "identifier_scheme": identifier_scheme,
-            "identifier": identifier,
-        }
+        params = {"name": name, "affiliation": affiliation}
         if id is not None:
             params["id"] = id
         self.authors.append(Author(**params))
         return self.authors[-1]
-
-    def add_to_keywords(
-        self,
-        value: Optional[str] = None,
-        vocabulary: Optional[str] = None,
-        vocabulary_uri: Optional[str] = None,
-        id: Optional[str] = None,
-        **kwargs
-    ) -> Keyword:
-        """
-        This method adds an object of type 'Keyword' to attribute keywords
-
-        Args:
-            id (str): Unique identifier of the 'Keyword' object. Defaults to 'None'.
-            value (): key terms describing important aspects of the dataset.. Defaults to None
-            vocabulary (): for the specification of the keyword controlled vocabulary in use, such as LCSH, MeSH, or others.. Defaults to None
-            vocabulary_uri (): keyword vocabulary URI points to the web presence that describes the keyword vocabulary, if appropriate.. Defaults to None
-        """
-        params = {
-            "value": value,
-            "vocabulary": vocabulary,
-            "vocabulary_uri": vocabulary_uri,
-        }
-        if id is not None:
-            params["id"] = id
-        self.keywords.append(Keyword(**params))
-        return self.keywords[-1]
-
-    def add_to_topic_classification(
-        self,
-        value: Optional[str] = None,
-        vocab: Optional[str] = None,
-        vocab_uri: Optional[str] = None,
-        id: Optional[str] = None,
-        **kwargs
-    ) -> TopicClassification:
-        """
-        This method adds an object of type 'TopicClassification' to attribute topic_classification
-
-        Args:
-            id (str): Unique identifier of the 'TopicClassification' object. Defaults to 'None'.
-            value (): topic or Subject term that is relevant to this Dataset.. Defaults to None
-            vocab (): provided for specification of the controlled vocabulary in use, e.g., LCSH, MeSH, etc.. Defaults to None
-            vocab_uri (): specifies the URI location for the full controlled vocabulary.. Defaults to None
-        """
-        params = {"value": value, "vocab": vocab, "vocab_uri": vocab_uri}
-        if id is not None:
-            params["id"] = id
-        self.topic_classification.append(TopicClassification(**params))
-        return self.topic_classification[-1]
