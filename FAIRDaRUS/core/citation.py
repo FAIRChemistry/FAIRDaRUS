@@ -26,12 +26,6 @@ class Contact(sdRDM.DataModel, search_mode="unordered"):
         default=None, tag="affiliation", json_schema_extra=dict()
     )
     email: Optional[str] = element(default=None, tag="email", json_schema_extra=dict())
-    _repo: Optional[str] = PrivateAttr(
-        default="https://github.com/FAIRChemistry/FAIRDaRUS"
-    )
-    _commit: Optional[str] = PrivateAttr(
-        default="40b769959ec876653e2a7eab19d64d83f8ae9dd2"
-    )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
     @model_validator(mode="after")
@@ -100,12 +94,6 @@ class Citation(sdRDM.DataModel, search_mode="unordered"):
         default_factory=ListPlus,
         tag="subject",
         json_schema_extra=dict(multiple=True),
-    )
-    _repo: Optional[str] = PrivateAttr(
-        default="https://github.com/FAIRChemistry/FAIRDaRUS"
-    )
-    _commit: Optional[str] = PrivateAttr(
-        default="40b769959ec876653e2a7eab19d64d83f8ae9dd2"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
