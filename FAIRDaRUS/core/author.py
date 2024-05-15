@@ -38,7 +38,7 @@ class Author(sdRDM.DataModel, search_mode="unordered"):
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="abe5d76e8a1659eda84bba300b326bb38dfc818b"
+        default="2e63176b28e3a33f2df34c4d4e04916b43bb0930"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 
