@@ -8,9 +8,6 @@ FAIRDaRUS.egg-info/top_level.txt
 FAIRDaRUS/core/__init__.py
 FAIRDaRUS/core/author.py
 FAIRDaRUS/core/citation.py
-FAIRDaRUS/core/keyword.py
-FAIRDaRUS/core/relatedpublication.py
-FAIRDaRUS/core/topicclassification.py
 FAIRDaRUS/tools/__init__.py
 FAIRDaRUS/tools/darus_upload.py
 FAIRDaRUS/tools/utils.py

@@ -34,28 +34,11 @@ class Author(sdRDM.DataModel, search_mode="unordered"):
         tag="affiliation",
         json_schema_extra=dict(),
     )
-
-    identifier_scheme: Optional[str] = element(
-        description="Name of the identifier scheme (ORCID, ISNI).",
-        default=None,
-        tag="identifier_scheme",
-        json_schema_extra=dict(),
-    )
-
-    identifier: Optional[str] = element(
-        description=(
-            "Uniquely identifies an individual author or organization, according to"
-            " various schemes."
-        ),
-        default=None,
-        tag="identifier",
-        json_schema_extra=dict(),
-    )
     _repo: Optional[str] = PrivateAttr(
         default="https://github.com/FAIRChemistry/FAIRDaRUS"
     )
     _commit: Optional[str] = PrivateAttr(
-        default="403aba2b92e1be808003052d7f2afe68d39e76c8"
+        default="bba16c795f2ad4015a9bca1dba9607ac77770cb7"
     )
     _raw_xml_data: Dict = PrivateAttr(default_factory=dict)
 

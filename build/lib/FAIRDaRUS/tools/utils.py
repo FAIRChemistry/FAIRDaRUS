@@ -40,13 +40,6 @@ class citation_widget:
             style={"description_width": "auto"},
         )
 
-        self.project = widgets.Text(
-            description="Project:",
-            placeholder="Name of the project group (e.g.: Project B07)",
-            layout=widgets.Layout(width="auto"),
-            style={"description_width": "auto"},
-        )
-
         self.authors = widgets.Text(
             description="Author list:",
             placeholder="Name the authors of the project (e.g.: author1, author2, ...)",
@@ -81,7 +74,7 @@ class citation_widget:
             [widgets.Label(value="")], layout=widgets.Layout(height="30px")
         )
 
-        widgets0 = widgets.VBox([self.title, self.description, self.project, v_space])
+        widgets0 = widgets.VBox([self.title, self.description, v_space])
         widgets1 = widgets.VBox(
             [
                 self.authors,
@@ -109,9 +102,6 @@ class citation_widget:
             if dataset.citation.ds_description
             else ""
         )
-        self.project.value = (
-            dataset.citation.project[0].name if dataset.citation.project else ""
-        )
 
         for author in dataset.citation.author:
             self.authors.value = (
@@ -135,9 +125,6 @@ class citation_widget:
 
 
     def save_input(self, dataset: Dataset, depositor: str):
-        # Add project group
-        dataset.citation.project = []
-        dataset.citation.add_project(name=self.project.value, level=1)
 
         # Add title
         dataset.citation.title = self.title.value
