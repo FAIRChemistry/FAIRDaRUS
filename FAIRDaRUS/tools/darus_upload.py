@@ -188,7 +188,7 @@ class DaRUS_upload:
         )
 
         # Edit the doi text to prevent .org in it, as it doesnt work:
-        self.doi_text.value = self.doi_text.value.replace(".org/",":")
+        self.doi_text.value = self.doi_text.value.replace(".org/",":").replace("https://","")
 
         # Load existing DaRUS dataset
         self.DaRUS_data = self.dataverse.load_dataset(
