@@ -13,7 +13,9 @@ setup(
     author_email="samir.darouich@itt.uni-stuttgart.de",
     license_files=("LICENSE"),
     packages=find_packages(),
-    install_requires=["sdrdm", "easyDataverse", "ipywidgets"],
+    install_requires=["sdrdm", 
+                      "easyDataverse @ git+https://github.com/gdcc/easyDataverse.git", 
+                      "ipywidgets"],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Users",

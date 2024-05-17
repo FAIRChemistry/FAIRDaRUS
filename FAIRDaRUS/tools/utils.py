@@ -133,6 +133,10 @@ class citation_widget:
         dataset.citation.ds_description = []
         dataset.citation.add_ds_description(value=self.description.value)
 
+        # Add project
+        dataset.citation.project = []
+        dataset.citation.add_project( name = "xx", level="1" )
+
         # Add authors to the dataset
         dataset.citation.author = []
         for aut, aff in zip(

@@ -12,5 +12,5 @@ Classifier: Operating System :: Unix
 Classifier: Operating System :: MacOS :: MacOS X
 Classifier: Operating System :: Microsoft :: Windows
 Requires-Dist: sdrdm
-Requires-Dist: easyDataverse
+Requires-Dist: easyDataverse@ git+https://github.com/gdcc/easyDataverse.git
 Requires-Dist: ipywidgets
